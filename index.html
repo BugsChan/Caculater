@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>复利计算器</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+    <script type="text/javascript">
+    	
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。")
+   			
+   		});
+   		
+    </script>
+</head>
+<body>
+	<header>
+		复利计算器
+	</header>
+	<main>
+		<p><span>START:</span> <input id="start" @input="changeStatus()" ></p>
+		<p><span>NOW:</span> <input id="now" @input="changeStatus()" /></p>
+		<p><span>END:</span> <input id="end" @input="changeStatus()" /></p>
+		
+		<p style="text-align: center;">已完成 {{percent}}%</p>
+	</main>
+	<script type="text/javascript">
+		(function(){
+			var allInputs = document.querySelectorAll("input");
+			for(var each of allInputs){
+				each.focus();
+			}
+		});
+		new Vue({
+			el: "main",
+			data:{
+				percent: 0
+			},
+			methods:{
+				changeStatus: function(){
+					//
+					var start = +document.getElementById("start").value;
+					var now = +document.getElementById("now").value;
+					var end = +document.getElementById("end").value;
+					
+					var ans = Math.log(now / start) / Math.log(end / start);
+					var percent = ans * 100;
+					this.percent = percent.toFixed(2);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+header{
+	width: 100%;
+	height: 40pt;
+	color: white;
+	font-size: 16pt;
+	line-height: 40pt;
+	background-color: gray;
+	text-align: center;
+}
+
+
+main>p>span{
+	width: 30%;
+	display: block;
+	float: left;
+	text-align: center;
+}
+main>p>input{
+	width: 55%;
+	outline:none;
+	border: none;
+	display: block;
+	font-size: inherit;
+	line-height: inherit;
+	float: left;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+main>p{
+	width: 98%;
+	border: solid 2px black;
+	/* background-color: red; */
+	height: 30pt;
+	font-size: 18pt;
+	line-height: 30pt;
+	padding: 0px;
+}
