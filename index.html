@@ -19,7 +19,9 @@
 		<p><span>NOW</span> <input v-model="now" @input="changeStatus()" /></p>
 		<p><span>END</span> <input v-model="end" @input="changeStatus()" /></p>
 		
-		<p style="text-align: center;">已完成 {{percent}}%</p>
+		<p v-show="!percentInput" @click="percentInput=true" style="text-align: center;">已完成 {{percent}}%</p>
+		<p v-show="percentInput"><span @click="percentInput=false">PERCENT</span> <input v-model="percent" @input="changePercent()" /></p>
+		
 		
 	</main>
 	<script type="text/javascript">
@@ -29,7 +31,8 @@
 				percent: 0,
 				start: "",
 				now: "",
-				end: ""
+				end: "",
+				percentInput: false
 			},
 			methods:{
 				changeStatus: function(){
@@ -43,6 +46,17 @@
 					var ans = Math.log(now / start) / Math.log(end / start);
 					var percent = ans * 100;
 					this.percent = percent.toFixed(2);
+				},
+				changePercent: function(){
+					var start = +this.start;
+					var end = +this.end;
+					var percent = +this.percent;
+					
+					var now = Math.pow((end / start), percent / 100) * start;
+					
+					var storiedObj = {"start": start, "now": now, "end": end};
+					localStorage.setItem("CACHE", JSON.stringify(storiedObj));
+					this.now = now.toFixed(2);
 				}
 			}
 		});
