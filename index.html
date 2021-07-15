@@ -14,12 +14,13 @@
 	<header>
 		复利计算器
 	</header>
-	<main @loaded="loaded()">
-		<p><span>START</span> <input id="start" v-model="start" @input="changeStatus()" ></p>
-		<p><span>NOW</span> <input id="now" v-model="now" @input="changeStatus()" /></p>
-		<p><span>END</span> <input id="end" v-model="end" @input="changeStatus()" /></p>
+	<main>
+		<p><span>START</span> <input v-model="start" @input="changeStatus()" ></p>
+		<p><span>NOW</span> <input v-model="now" @input="changeStatus()" /></p>
+		<p><span>END</span> <input v-model="end" @input="changeStatus()" /></p>
 		
 		<p style="text-align: center;">已完成 {{percent}}%</p>
+		
 	</main>
 	<script type="text/javascript">
 		var vue = new Vue({
@@ -54,7 +55,7 @@
 				vue.now = storiedObj.now;
 				vue.end = storiedObj.end;
 				
-				console.log("gogogo");
+				vue.changeStatus();
 			}
 		})();
 	</script>
