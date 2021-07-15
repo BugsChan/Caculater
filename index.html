@@ -53,10 +53,12 @@
 					var percent = +this.percent;
 					
 					var now = Math.pow((end / start), percent / 100) * start;
+					now = now.toFixed(2);
 					
 					var storiedObj = {"start": start, "now": now, "end": end};
 					localStorage.setItem("CACHE", JSON.stringify(storiedObj));
-					this.now = now.toFixed(2);
+					
+					this.now = now;
 				}
 			}
 		});
