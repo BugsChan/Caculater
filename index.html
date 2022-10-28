@@ -6,9 +6,6 @@
     <title>复利计算器</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 	<script type="text/javascript" src="js/vue.min.js"></script>
-    <script type="text/javascript">
-    	
-    </script>
 </head>
 <body>
 	<header>
@@ -22,6 +19,23 @@
 		<p v-show="!percentInput" @click="percentInput=true" style="text-align: center;">已完成 {{percent}}%</p>
 		<p v-show="percentInput"><span @click="percentInput=false">PERCENT</span> <input v-model="percent" @input="changePercent()" /></p>
 		
+		<br>
+		
+		<p><span class="position">UP</span>
+			<select v-model="upstat" :style="{backgroundColor: upstat=='forbid'?'firebrick':'white', color: upstat=='forbid'?'white':'black'}" @change="changeUp">
+				<option value="allow" style="background-color: white;color: black;">ALLOW</option>
+				<option value="forbid" style="background-color: firebrick;color: white;">FORBID</option>
+			</select> &nbsp;
+			<ins v-show="upstat=='forbid'">{{forbidDates.up}}</ins>
+		</p>
+		<p><span class="position">DOWN</span>
+			<select v-model="downstat" @change="changeDown" :style="{backgroundColor: downstat=='forbid'?'firebrick':'white', color: downstat=='forbid'?'white':'black'}">
+				<option value="allow" style="background-color: white;color: black;">ALLOW</option>
+				<option value="forbid" style="background-color: firebrick;color: white;">FORBID</option>
+			</select> &nbsp;
+			<ins v-show="downstat=='forbid'">{{forbidDates.down}}</ins>
+		</p>
+		
 		
 	</main>
 	<script type="text/javascript">
@@ -32,7 +46,13 @@
 				start: "",
 				now: "",
 				end: "",
-				percentInput: false
+				percentInput: false,
+				upstat: "allow",
+				downstat: "allow",
+				forbidDates:{
+					up: "00-00",
+					down: "00-00"
+				}
 			},
 			methods:{
 				changeStatus: function(){
@@ -59,6 +79,44 @@
 					localStorage.setItem("CACHE", JSON.stringify(storiedObj));
 					
 					this.now = now;
+				},
+				_getDate: function(){
+					function strf(num){
+						return (num < 10 ? '0': '') + num;
+					};
+					return strf(new Date().getMonth() + 1) + '-' + strf(new Date().getDate());
+				},
+				_updatePositionCache: function(){
+					storiedObj = {
+						upstat: this.upstat,
+						downstat: this.downstat,
+						forbidDates:{
+							up: this.forbidDates.up,
+							down: this.forbidDates.down
+						}
+					};
+					storiedObj = JSON.stringify(storiedObj);
+					localStorage.setItem("POSITION_CACHE", storiedObj);
+				},
+				changeUp: function(){
+					if(confirm("Ensure to change?")){
+						if(this.upstat == "forbid"){
+							this.forbidDates.up = prompt("Input date:", this._getDate());
+						}
+						this._updatePositionCache();
+					}else{
+						this.upstat = (this.upstat == 'forbid' ? 'allow': 'forbid');
+					}
+				},
+				changeDown: function(){
+					if(confirm("Ensure to change?")){
+						if(this.downstat == "forbid"){
+							this.forbidDates.down = prompt("Input date:", this._getDate());
+						}
+						this._updatePositionCache();
+					}else{
+						this.downstat = (this.downstat == 'forbid' ? 'allow': 'forbid');
+					}
 				}
 			}
 		});
@@ -70,8 +128,15 @@
 				vue.start = storiedObj.start;
 				vue.now = storiedObj.now;
 				vue.end = storiedObj.end;
-				
 				vue.changeStatus();
+			}
+			
+			storiedObj = localStorage.getItem("POSITION_CACHE");
+			if(storiedObj){
+				storiedObj = JSON.parse(storiedObj);
+				vue.forbidDates = storiedObj.forbidDates;
+				vue.upstat = storiedObj.upstat;
+				vue.downstat = storiedObj.downstat;
 			}
 		})();
 	</script>

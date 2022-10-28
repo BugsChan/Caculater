@@ -10,7 +10,15 @@ header{
 
 
 main>p>span{
-	width: 30%;
+	width: 36%;
+	display: block;
+	float: left;
+	text-align: center;
+	border-right: solid #333333 2px;
+}
+
+main>p>.position{
+	width: 23%;
 	display: block;
 	float: left;
 	text-align: center;
@@ -37,4 +45,23 @@ main>p{
 	font-size: 18pt;
 	line-height: 30pt;
 	padding: 0px;
+}
+
+main select{
+	width: 100pt;
+	outline:none;
+	border: none;
+	display: block;
+	font-size: inherit;
+	line-height: inherit;
+	float: left;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 10px;
+}
+
+main ins{
+	text-align: center;
+	text-decoration: none;
 }
